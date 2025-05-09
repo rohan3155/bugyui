@@ -1,0 +1,91 @@
+/* Font and Tailwind Imports */
+@import url("https://fonts.cdnfonts.com/css/br-sonoma");
+@import "tailwindcss";
+
+/* Base Styles */
+body {
+	@apply m-0;
+	font-family: "BR Sonoma", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: "BR Sonoma", sans-serif;
+}
+
+/* Theme Tokens */
+@theme {
+	/* Global Utility Colors */
+	--color-success: #28a745;
+	--color-error: #dc3545;
+	--color-warning: #ffc107;
+	--color-info: #17a2b8;
+	--color-primary: #ff5714;
+	--color-disabled-text: #ffffff;
+	--color-disabled-bg: #6c757d;
+
+	/* Theme: Light */
+	--color-light-bg: #ffffff;
+	--color-light-text: #131316;
+	--color-light-primary: #131316;
+
+	/* Theme: Dark */
+	--color-dark-bg: #131316;
+	--color-dark-text: #f0f0f0;
+	--color-dark-primary: #f0f0f0;
+
+	/* Theme: Frost */
+	--color-frost-bg: #edf2fb;
+	--color-frost-text: #131316;
+	--color-frost-primary: #131316;
+
+	/* Theme: Night Vision */
+	--color-night-vision-bg: #111111;
+	--color-night-vision-text: #f7f5f2;
+	--color-night-vision-primary: #f7f5f2;
+
+	/* Theme: Beige Soft */
+	--color-beige-soft-bg: #fbf1ea;
+	--color-beige-soft-text: #333333;
+	--color-beige-soft-primary: #333333;
+}
+
+/* Theme Application */
+body[data-theme="light"] {
+	background: var(--color-light-bg);
+	color: var(--color-light-text);
+}
+
+body[data-theme="dark"] {
+	background: var(--color-dark-bg);
+	color: var(--color-dark-text);
+}
+
+body[data-theme="frost"] {
+	background: var(--color-frost-bg);
+	color: var(--color-frost-text);
+}
+
+body[data-theme="night-vision"] {
+	background: var(--color-night-vision-bg);
+	color: var(--color-night-vision-text);
+}
+
+body[data-theme="beige-soft"] {
+	background: var(--color-beige-soft-bg);
+	color: var(--color-beige-soft-text);
+}
+
+@keyframes shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.animate-shimmer {
+	animation: shimmer 2s linear infinite;
+}
