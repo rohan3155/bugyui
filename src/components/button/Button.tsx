@@ -9,32 +9,31 @@ export type ButtonVariant =
 	| "dark"
 	| "disabled"
 	| "success"
-        | "success-outline"
-        | "success-dashed"
+	| "success-outline"
+	| "success-dashed"
 	| "warning"
-        | "warning-outline"
-        | "warning-dashed"
-        | "bordered"
-        | "dashed"
-        | "link"
-        | "text"
-        | "ghost"
+	| "warning-outline"
+	| "warning-dashed"
+	| "bordered"
+	| "dashed"
+	| "link"
+	| "text"
+	| "ghost"
 	| "danger"
-        | "danger-outline"
-        | "danger-dashed"
-        ;
+	| "danger-outline"
+	| "danger-dashed";
 
 export type IconPosition = "left" | "right" | "top" | "bottom";
 
-export  type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: ButtonVariant;
 	className?: string;
 	title?: string;
-        size?: "sm" | "md" | "lg";
-	icon?: React.ElementType;
+	size?: "sm" | "md" | "lg";
+	icon?: React.ElementType | React.ReactNode;
 	iconPosition?: IconPosition;
 	iconProps?: React.ComponentProps<Icon>;
 	loading?: boolean;
@@ -50,19 +49,27 @@ const buttonVariants: Record<ButtonVariant, string> = {
 		"bg-[var(--color-disabled-bg)] text-[var(--color-disabled-text)] opacity-60 cursor-not-allowed",
 	success: "bg-[var(--color-success)] text-white hover:opacity-90",
 
-        "success-outline": "bg-transparent border border-[var(--color-success)] text-[var(--color-success)] hover:opacity-90",
-        "success-dashed": "bg-transparent border-dashed border border-[var(--color-success)] text-[var(--color-success)] hover:opacity-90",
+	"success-outline":
+		"bg-transparent border border-[var(--color-success)] text-[var(--color-success)] hover:opacity-90",
+	"success-dashed":
+		"bg-transparent border-dashed border border-[var(--color-success)] text-[var(--color-success)] hover:opacity-90",
 	warning: "bg-[var(--color-warning)] text-black hover:opacity-90",
-        "warning-outline": "bg-transparent border border-[var(--color-warning)] text-[var(--color-warning)] hover:opacity-90",
-        "warning-dashed": "bg-transparent border-dashed border border-[var(--color-warning)] text-[var(--color-warning)] hover:opacity-90",
+	"warning-outline":
+		"bg-transparent border border-[var(--color-warning)] text-[var(--color-warning)] hover:opacity-90",
+	"warning-dashed":
+		"bg-transparent border-dashed border border-[var(--color-warning)] text-[var(--color-warning)] hover:opacity-90",
 	danger: "bg-[var(--color-error)] text-white hover:opacity-90",
-        "danger-outline": "bg-transparent border border-[var(--color-error)] text-[var(--color-error)] hover:opacity-90",
-        "danger-dashed": "bg-transparent border-dashed border border-[var(--color-error)] text-[var(--color-error)] hover:opacity-90",
-        bordered: "bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] hover:opacity-90",
-        dashed: "bg-transparent border border-dashed border-[var(--color-primary)] text-[var(--color-primary)] hover:opacity-90",
-        link: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
-        text: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
-        ghost: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
+	"danger-outline":
+		"bg-transparent border border-[var(--color-error)] text-[var(--color-error)] hover:opacity-90",
+	"danger-dashed":
+		"bg-transparent border-dashed border border-[var(--color-error)] text-[var(--color-error)] hover:opacity-90",
+	bordered:
+		"bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] hover:opacity-90",
+	dashed:
+		"bg-transparent border border-dashed border-[var(--color-primary)] text-[var(--color-primary)] hover:opacity-90",
+	link: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
+	text: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
+	ghost: "bg-transparent text-[var(--color-primary)] hover:opacity-90",
 };
 
 const iconWrapperStyles: Record<IconPosition, string> = {
@@ -86,7 +93,7 @@ export const Button: React.FC<ButtonProps> = ({
 	iconProps = {},
 	disabled,
 	children,
-        size = "md",
+	size = "md",
 	loading = false,
 	loader = <Loader />,
 	...props
@@ -99,14 +106,20 @@ export const Button: React.FC<ButtonProps> = ({
 				"px-4 py-2 rounded transition-colors duration-200 font-semibold inline-flex justify-center cursor-pointer",
 				iconWrapperStyles[iconPosition],
 				buttonVariants[appliedVariant],
-                                buttonSize[size],
+				buttonSize[size],
 				className
 			)}
 			disabled={disabled}
 			{...props}
 		>
 			{loading && loader}
-			{IconComponent && !loading && <IconComponent {...iconProps} />}
+			{IconComponent &&
+				!loading &&
+				(typeof IconComponent === "function" ? (
+					<IconComponent {...iconProps} />
+				) : (
+					IconComponent
+				))}
 			{title === "" ? children : title}
 		</button>
 	);

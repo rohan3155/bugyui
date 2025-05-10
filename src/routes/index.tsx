@@ -1,38 +1,65 @@
-import { Grid, Cols, Rows } from "@/grid/Grid";
+import React from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { DropDown } from "@/components/dropdown/DropDown";
+import { CaretDown } from "@phosphor-icons/react";
+import { Button } from "@/components/button/Button";
 
+// Defining the route for the component
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
 });
 
+// Route component where DropDown is used
 function RouteComponent() {
-	return (
-		<div>
-			<div className="p-6 space-y-8">
-				{/* Grid with 12 columns (default), centered, middle-aligned, with gutter of 6 */}
-				<Grid justify="center" align="middle" gutter={6}>
-					<Cols span={6} sm={3} className="p-4 bg-blue-200 rounded">
-						Left
-					</Cols>
-					<Cols span={6} sm={2} className="p-4 bg-green-200 rounded">
-						Right
-					</Cols>
-				</Grid>
-                                
+	// Options for the dropdown
+	const options = [
+		{
+			label: "Option 1",
+			value: "option1",
+			// icon: <FaBeer />,
+			onSelect: (value: string) => console.log("Selected:", value),
+		},
+		{
+			label: "Option 2",
+			value: "option2",
+			onSelect: (value: string) => console.log("Selected:", value),
+		},
+		{
+			label: "Option 3",
+			value: "option3",
+			onSelect: (value: string) => console.log("Selected:", value),
+		},
+	];
 
-				{/* Default Grid (12 columns) with gutter of 4 */}
-				<Grid gutter={4}>
-					<Cols span={12} sm={6} md={4} className="p-4 bg-red-200 rounded">
-						Box 1
-					</Cols>
-					<Cols span={12} sm={6} md={4} className="p-4 bg-orange-200 rounded">
-						Box 2
-					</Cols>
-					<Cols span={12} sm={6} md={4} className="p-4 bg-teal-200 rounded">
-						Box 3
-					</Cols>
-				</Grid>
-			</div>
+	// Using DropDown component
+	return (
+		<div className="h-screen flex justify-center items-center">
+			<DropDown
+				worksOnClick
+				// worksOnHover
+				// directionAgnostic
+                                openFrom="bottom"
+				onSelect={(val) => console.log("Selected:", val)}
+				options={Array.from(Array(10).keys()).map((i) => ({
+					label: `Option ${i + 1}`,
+					value: `option${i + 1}`,
+					onSelect: (value: string) => console.log("Selected:", value),
+				}))}
+                                ContentFooter={({ className }) => (
+					<div className={className}>
+						<p>Content Footer</p>
+					</div>
+				)}
+				trigger={({ onClick, iconRef }) => (
+					<Button
+						onClick={onClick}
+						className="p-2 bg-blue-600 text-white rounded flex items-center"
+					>
+						Custom Trigger
+						<CaretDown ref={iconRef} className="w-4 h-4 ml-2" />
+					</Button>
+				)}
+			/>
 		</div>
 	);
 }
