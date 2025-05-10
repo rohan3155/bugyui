@@ -28,9 +28,8 @@ type DropDownProps = {
 	listItemClassName?: string;
 	options: Option[];
 	onSelect?: (value: string) => void;
-        ContentHeader?: (props: { className?: string }) => React.ReactNode;
-ContentFooter?: (props: { className?: string }) => React.ReactNode;
-
+	contentHeader?: (props: { className?: string }) => React.ReactNode;
+	contentFooter?: (props: { className?: string }) => React.ReactNode;
 };
 
 export const DropDown = ({
@@ -43,8 +42,8 @@ export const DropDown = ({
 	listItemClassName,
 	options = [],
 	onSelect,
-        ContentHeader ,
-        ContentFooter ,
+	contentHeader,
+	contentFooter,
 }: DropDownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [direction, setDirection] = useState<"top" | "bottom">(openFrom);
@@ -126,7 +125,7 @@ export const DropDown = ({
 	return (
 		<div
 			ref={containerRef}
-			className="relative w-fit"
+			className="relative  w-fit"
 			onMouseEnter={worksOnHover ? handleMouseEnter : undefined}
 		>
 			{openFrom === "top" && (
@@ -169,8 +168,8 @@ export const DropDown = ({
 					listItemClassName={listItemClassName}
 					handleSelect={handleSelect}
 					worksOnHover={worksOnHover}
-                                        ContentHeader={ContentHeader}
-                                        ContentFooter={ContentFooter}
+					contentHeader={contentHeader}
+					contentFooter={contentFooter}
 				/>
 			)}
 		</div>
@@ -186,8 +185,8 @@ const DropDownContent = ({
 	listItemClassName,
 	handleSelect,
 	worksOnHover = false,
-        ContentHeader,
-        ContentFooter,
+	contentHeader,
+	contentFooter,
 }: {
 	contentRef: React.RefObject<HTMLDivElement>;
 	direction: "top" | "bottom";
@@ -197,31 +196,31 @@ const DropDownContent = ({
 	listItemClassName?: string;
 	handleSelect: (value: string, customHandler?: (val: string) => void) => void;
 	worksOnHover?: boolean;
-       ContentHeader?: (props: { className?: string }) => React.ReactNode;
-ContentFooter?: (props: { className?: string }) => React.ReactNode;
-
+	contentHeader?: (props: { className?: string }) => React.ReactNode;
+	contentFooter?: (props: { className?: string }) => React.ReactNode;
 }) => (
 	<div
 		ref={contentRef}
 		className={cn(
-			` bg-white shadow rounded w-48 opacity-0 pointer-events-none z-50
+			` bg-white  py-2  shadow rounded w-48 opacity-0 pointer-events-none z-50
              ${direction === "bottom" ? "top-full mt-2" : "bottom-full mb-2"}`,
-             "max-h-56 overflow-y-scroll",
+			"max-h-56 overflow-y-scroll",
 			worksOnHover ? "absolute" : "",
 			containerClassName
 		)}
 		style={{ pointerEvents: "none" }}
 	>
-                {ContentHeader && ContentHeader({
-                        className: "p-2 sticky top-0 left-0 w-full",
-                })}
+		{contentHeader &&
+			contentHeader({
+				className: "p-2 sticky top-0 left-0 w-full",
+			})}
 		<ul>
 			{options.map((option, index) => (
 				<li
 					key={option.value}
 					ref={(el) => (listItemsRef.current[index] = el)}
 					className={cn(
-						"p-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2",
+						"p-2 hover:bg-primary/10 cursor-pointer flex items-center gap-2",
 						listItemClassName
 					)}
 					onClick={() => handleSelect(option.value, option.onSelect)}
@@ -232,8 +231,11 @@ ContentFooter?: (props: { className?: string }) => React.ReactNode;
 				</li>
 			))}
 		</ul>
-                {ContentFooter && ContentFooter({
-                        className: "p-2 sticky bottom-0 left-0 w-full",
-                })}
+		{contentFooter &&
+			contentFooter({
+				className: "p-2 sticky bottom-0 left-0 w-full",
+			})}
 	</div>
 );
+
+
