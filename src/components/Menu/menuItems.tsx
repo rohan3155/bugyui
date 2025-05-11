@@ -1,19 +1,39 @@
 import {
-	House,
-	User,
-	Gear,
-	Info,
-	Question,
-	FileText,
-	ShieldCheck,
-	BookOpen,
-	CaretLeft,
-	Code,
-	Folder,
-	File,
+House,
+User,
+Gear,
+Info,
+Question,
+FileText,
+ShieldCheck,
+BookOpen,
+CaretLeft,
+Code,
+Folder,
+File,
 } from "@phosphor-icons/react";
+// Example of flat menu items
 
-export const menuItems = [
+// Define the types for menu items
+export type MenuItemType = {
+        key: string;
+        title: string;
+        href?: string;
+        icon?: React.ReactNode;
+        children?: MenuItemType[];
+        onClick?: () => void;
+};
+
+// Group type for when using grouped format
+export type MenuGroupType = {
+        title?: string;
+        items: MenuItemType[];
+};
+
+// Union type to handle both formats
+export type MenuItemsType = MenuItemType[] | MenuGroupType[];
+
+export const flatMenuItems: MenuItemType[] = [
 	{
 		key: "1",
 		title: "Home",
@@ -97,7 +117,8 @@ export const menuItems = [
 	},
 ];
 
-export const menuItems = [
+// Example of grouped menu items
+export const groupedMenuItems: MenuGroupType[] = [
 	{
 		title: "Main",
 		items: [
